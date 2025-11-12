@@ -7,9 +7,16 @@ import {
 	getJob,
 	updateJob,
 	deleteJob,
+	showStats,
 } from "../controllers/jobs";
+import testUser from "../middleware/testUser";
 
-router.route("/").post(createJob).get(getAllJobs);
-router.route("/:id").get(getJob).patch(updateJob).delete(deleteJob);
+router.route("/").post(testUser, createJob).get(getAllJobs);
+router.route("/stats").get(showStats);
+router
+	.route("/:id")
+	.get(getJob)
+	.patch(testUser, updateJob)
+	.delete(testUser, deleteJob);
 
 export default router;

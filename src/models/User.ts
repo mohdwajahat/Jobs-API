@@ -7,6 +7,8 @@ export interface IUser extends Document {
 	name: string;
 	email: string;
 	password: string;
+	lastname: string;
+	location: string;
 	createToken(): string;
 	comparePassword(userPassword: string): Promise<boolean>;
 }
@@ -32,6 +34,18 @@ const UserSchema: Schema<IUser> = new mongoose.Schema({
 		required: [true, "please provide a valid Password "],
 		minLength: 6,
 	},
+	lastname: {
+		type: String,
+		trim: true,
+		default: "lastname",
+		maxLength: 20,
+	},
+	location: {
+		type: String,
+		trim: true,
+		maxLength: 20,
+		default: "my city",
+	},
 });
 
 UserSchema.pre("save", async function () {
@@ -55,7 +69,6 @@ UserSchema.methods.createToken = function (this: IUser) {
 UserSchema.methods.comparePassword = async function (userPassword: string) {
 	return await bcrypt.compare(userPassword, this.password);
 };
-
 
 const User = mongoose.model<IUser>("User", UserSchema);
 

@@ -4,6 +4,8 @@ export interface IJob extends Document {
 	company: string;
 	position: string;
 	status: string;
+	jobLocation: string;
+	jobType: string;
 	createdBy: mongoose.Schema.Types.ObjectId;
 	createdAt?: Date;
 	updatedAt?: Date;
@@ -20,10 +22,20 @@ const JobsSchema: Schema<IJob> = new mongoose.Schema(
 			type: String,
 			required: [true, "Please provide position "],
 		},
+		jobType: {
+			type: String,
+			enum: ["full-time", "part-time", "intern", "remote"],
+			default: "full-time",
+		},
+		jobLocation: {
+			type: String,
+			default: "my city",
+			required: true,
+		},
 		status: {
 			type: String,
 			enum: ["pending", "interview", "denied"],
-			default : "pending"
+			default: "pending",
 		},
 		createdBy: {
 			type: mongoose.Schema.ObjectId,
@@ -36,7 +48,6 @@ const JobsSchema: Schema<IJob> = new mongoose.Schema(
 	}
 );
 
-
-const Job = mongoose.model<IJob>("Job",JobsSchema);
+const Job = mongoose.model<IJob>("Job", JobsSchema);
 
 export default Job;

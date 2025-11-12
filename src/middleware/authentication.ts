@@ -6,6 +6,7 @@ export interface AuthRequest extends Request {
 	user?: {
 		userId: string;
 		name: string;
+		isTestUser: boolean;
 	};
 }
 const authenticatinoMiddleware = (
@@ -26,9 +27,11 @@ const authenticatinoMiddleware = (
 			process.env.JWT_SECRET!
 		) as JwtPayload;
 		const { userId, name } = decoded as { userId: string; name: string };
+		const isTestUser = userId === "6911ed7915a6db5a96296e6f";
 		req.user = {
 			userId,
 			name,
+			isTestUser
 		};
 		next();
 	} catch (error) {

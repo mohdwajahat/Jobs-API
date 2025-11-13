@@ -210,7 +210,6 @@ const showStats = async (req: AuthRequest, res: Response) => {
 			$limit: 6,
 		},
 	]);
-
 	monthlyApplications = monthlyApplications.map((item) => {
 		const {
 			_id: { year, month },
